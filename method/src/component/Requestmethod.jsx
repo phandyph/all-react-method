@@ -18,7 +18,6 @@ const Requestmethod = () => {
             Method: 'GET'
         }
     };
-    
     const getPosts = () => {
         fetch('https://jsonplaceholder.typicode.com/posts',corsForGet)
         .then((response)=> {
@@ -32,7 +31,32 @@ const Requestmethod = () => {
             console.log(err)
         })
     }
-    console.log('Here is data use fetch: ', posts)
+
+    /**
+     * Delete post by id
+     * Request Method: OPTIONS (pre-flight with status 204)
+     * Request Method: GET (status 200)
+     * These two requests make us see id two times.
+     */
+
+    const corsForDelete = {
+        mode: 'cors',
+        headers: {
+            'Content-Type': 'applicatioin/json',
+            'Access-Control-Allow-Origin': '*',
+            Method: 'DELETE'
+        }
+    };
+    const onDelete = (id) => {
+        fetch(`https://jsonplaceholder.typicode.com/posts/${id}`, corsForDelete)
+        .then(()=>{
+            getPosts();
+            console.log(`This id '${id}' have been deleted`)
+        })
+        .catch((error)=>{
+            console.log(error)
+        })
+    }
 
 
     useEffect(()=>{
@@ -45,6 +69,7 @@ const Requestmethod = () => {
             <div className='cards-container' >
                 <Display 
                     posts={posts}
+                    onDelete={onDelete}
                 />
             </div>
         </div>

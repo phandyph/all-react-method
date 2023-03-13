@@ -1,5 +1,5 @@
 import './Display.css'
-const Display = ({posts}) => {
+const Display = ({posts, onDelete}) => {
     return (
         <div className='display-cards'>
             {posts.map((post)=>{
@@ -11,8 +11,8 @@ const Display = ({posts}) => {
                                 <p>{post.title}</p>
                             </div>
                             <div className='btns action'>
-                                <button className='btn bg-warning m-1'>Edit</button>
-                                <button className='btn bg-danger m-1'>Delete</button>
+                                <button className='btn bg-warning m-1 text-white'>Edit</button>
+                                <button onClick={()=>onDelete(post.id)} className='btn bg-danger m-1 text-white'>Delete</button>
                             </div>
                         </div>
                     </div>
