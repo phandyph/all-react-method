@@ -1,0 +1,19 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.whole-container {
+    width: 60%;
+    margin: auto;
+}
+
+.card-container {
+    margin: auto;
+}
+
+.title {
+    margin: 10px;
+    text-align: center;
+    color: blue;
+}

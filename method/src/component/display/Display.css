@@ -1,0 +1,20 @@
+.content {
+    width: 70%;
+}
+
+.action {
+    width: 30%;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+}
+
+.display-cards {
+    width: 100%;
+}
+
+.each-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
