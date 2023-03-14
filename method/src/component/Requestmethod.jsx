@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react'
 import Display from './display/Display'
-import Add from './add/Add'
+import Form from './form/Form'
 import './Requestmethod.css'
 
 const Requestmethod = () => {
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(false);
-    // console.log(loading);
+    const [showForm, setShowForm] = useState(false);
 
     /**
      * Get all posts
@@ -43,13 +43,14 @@ const Requestmethod = () => {
     const onAdd = () => {
         const corsForAdd = {
             method: 'POST',
+            headers: {
+               'Content-type': 'application/json; charset=UTF-8',
+               'Access-Control-Allow-Origin': '*',
+            },
             body: JSON.stringify({
                title: title,
                body: body,
             }),
-            headers: {
-               'Content-type': 'application/json; charset=UTF-8',
-            },
         }
 
         fetch('https://jsonplaceholder.typicode.com/posts', corsForAdd)
@@ -62,20 +63,34 @@ const Requestmethod = () => {
             .catch((err) => {
                console.log(err);
         });
-
-        setIsShow(false)
+        
     }
 
-    /**
-     * Hide and Show Form
-     */
-    const [isShow, setIsShow] = useState(false)
-    const onShow = () => {
-        setIsShow(true)
-    }
-
-    const onCancal = () => {
-        setIsShow(false)
+    const onEdit = (id) => {
+        const corsForEdit = {
+            mode: 'cors',
+            method: 'PUT',
+            body: JSON.stringify({ //It needs object because we change and then we add it at that place.
+                id: id,
+                title: title,
+                body: body,
+            }),
+            headers: {
+                "Content-type": "application/json; charset=UTF-8",
+                'Access-Control-Allow-Origin': '*',
+            },
+        };
+        fetch(`https://jsonplaceholder.typicode.com/posts/${id}`, corsForEdit)
+        .then((res)=>{
+            return res.json();
+        })
+        .then((post)=>{
+            // console.log(post)
+        })
+        .catch((error)=>{
+            console.log(error)
+        })
+        // onCancalEditForm(false)
     }
 
 
@@ -105,6 +120,14 @@ const Requestmethod = () => {
         })
     }
 
+    const onButtonCreate = () => {
+        setShowForm(true);
+    }
+
+    const onButtonCancal = () => {
+        setShowForm(false);
+    }
+
 
     useEffect(()=>{
         getPosts();
@@ -113,22 +136,32 @@ const Requestmethod = () => {
     return (
         <div className='whole-container'>
             <h2 className='title' >ALL METHODS <span className='text-success'>GET</span> <span className='text-primary'>POST</span> <span className='text-danger'>DELETE</span> <span className='text-warning'>PUT</span> </h2>
-            <Add
-                title={title}
-                body={body}
-                setTitle={setTitle}
-                setBody={setBody}
-                onAdd={onAdd}
-                isShow={isShow}
-                onCancal={onCancal}
-                onShow={onShow}
-            />
-            <div className='cards-container' >
-                <Display 
-                    posts={posts}
-                    onDelete={onDelete}
+        
+
+
+            <div>
+                <button onClick={()=>onButtonCreate()} className="btn add-btn btn-primary">CREATE</button>
+            </div>
+            
+            <div className='screen-display'>
+                <div className='cards-container' >
+                    <Display
+                        posts={posts}
+                        onDelete={onDelete}
+
+                    />
+                </div>
+                <Form
+                    showForm={showForm}
+                    onAdd={onAdd}
+                    title={title}
+                    body={body}
+                    setTitle={setTitle}
+                    setBody={setBody}
+                    onButtonCancal={onButtonCancal}
                 />
             </div>
+           
         </div>
     )
 }

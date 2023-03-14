@@ -1,5 +1,12 @@
-import './Display.css'
-const Display = ({posts, onDelete}) => {
+import './Display.css';
+import Edit from '../edit/Edit'
+
+
+const Display = ({
+    posts, 
+    onDelete,
+
+}) => {
     return (
         <div className='display-cards'>
             {posts.map((post)=>{
@@ -11,6 +18,7 @@ const Display = ({posts, onDelete}) => {
                                 <p>{post.title}</p>
                             </div>
                             <div className='btns action'>
+                               
                                 <button className='btn bg-warning m-1 text-white'>Edit</button>
                                 <button onClick={()=>onDelete(post.id)} className='btn bg-danger m-1 text-white'>Delete</button>
                             </div>
