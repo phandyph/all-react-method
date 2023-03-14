@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import {Modal, Button} from 'react-bootstrap';
 
 import './Add.css'
@@ -7,17 +6,12 @@ const Add = ({
     setTitle,
     body,
     setBody,
-    onAdd
+    onAdd,
+    onShow,
+    onCancal,
+    isShow
 }) => {
     // Code below to hide or show form.
-    const [isShow, setIsShow] = useState(false)
-    const onShow = () => {
-        setIsShow(true)
-    }
-
-    const onCancel = () => {
-        setIsShow(false)
-    }
 
     return (
         <div className='add'>
@@ -45,7 +39,7 @@ const Add = ({
                 </Modal.Body>
 
                 <Modal.Footer>
-                    <Button style={{}} variant="danger" onClick={onCancel}>
+                    <Button style={{}} variant="danger" onClick={onCancal}>
                         Cancal
                     </Button>
                     <Button type='submit' variant="success" onClick={()=>onAdd()}>

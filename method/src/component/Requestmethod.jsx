@@ -62,8 +62,21 @@ const Requestmethod = () => {
             .catch((err) => {
                console.log(err);
         });
+
+        setIsShow(false)
     }
 
+    /**
+     * Hide and Show Form
+     */
+    const [isShow, setIsShow] = useState(false)
+    const onShow = () => {
+        setIsShow(true)
+    }
+
+    const onCancal = () => {
+        setIsShow(false)
+    }
 
 
     /**
@@ -106,6 +119,9 @@ const Requestmethod = () => {
                 setTitle={setTitle}
                 setBody={setBody}
                 onAdd={onAdd}
+                isShow={isShow}
+                onCancal={onCancal}
+                onShow={onShow}
             />
             <div className='cards-container' >
                 <Display 
