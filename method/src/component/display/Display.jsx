@@ -1,11 +1,9 @@
 import './Display.css';
-import Edit from '../edit/Edit'
-
 
 const Display = ({
     posts, 
     onDelete,
-
+    onEdit
 }) => {
     return (
         <div className='display-cards'>
@@ -19,7 +17,7 @@ const Display = ({
                             </div>
                             <div className='btns action'>
                                
-                                <button className='btn bg-warning m-1 text-white'>Edit</button>
+                                <button onClick={()=>onEdit(post.id)} className='btn bg-warning m-1 text-white'>Edit</button>
                                 <button onClick={()=>onDelete(post.id)} className='btn bg-danger m-1 text-white'>Delete</button>
                             </div>
                         </div>

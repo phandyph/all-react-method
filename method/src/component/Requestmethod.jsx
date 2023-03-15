@@ -35,10 +35,26 @@ const Requestmethod = () => {
     }
 
     /**
+     * 
+     * @param {*} e 
+     * @param {*} type 
+     * This function response on get data from input
+     * and get data to display.
+     */
+    const [post, setPost] = useState({})
+    const onInputChange = (e, type) => {
+        const { value } = e.target;
+        // [type] type in [] mean we can write in it.
+        setPost({...post, [type]: value });
+    }
+
+    /**
      * Add Data
      */
     const [title, setTitle] = useState('');
     const [body, setBody] = useState('');
+
+  
 
     const onAdd = () => {
         const corsForAdd = {
@@ -48,36 +64,43 @@ const Requestmethod = () => {
                'Access-Control-Allow-Origin': '*',
             },
             body: JSON.stringify({
-               title: title,
-               body: body,
+               title: post.title,
+               body: post.body,
             }),
         }
 
-        fetch('https://jsonplaceholder.typicode.com/posts', corsForAdd)
+        fetch("https://jsonplaceholder.typicode.com/posts", corsForAdd)
             .then((res) => res.json())
             .then((post) => {
-               setTitle('');
-               setBody('');
-               console.log('Data I have created: ',post);
+            //    setTitle("");
+            //    setBody("");
+            //    console.log('Data I have created: ',post);
+                setPost({...post})
+                console.log('Here is data just add: ',post);
             })
             .catch((err) => {
                console.log(err);
         });
+
+        setShowForm(false);
         
     }
 
+    
+
     const onEdit = (id) => {
+        setShowForm(true);
         const corsForEdit = {
             mode: 'cors',
             method: 'PUT',
-            body: JSON.stringify({ //It needs object because we change and then we add it at that place.
-                id: id,
-                title: title,
-                body: body,
+            //It needs object because we change and then we add it at that place.
+            body: JSON.stringify({ 
+                title: post.title,
+                body: post.body,
             }),
             headers: {
                 "Content-type": "application/json; charset=UTF-8",
-                'Access-Control-Allow-Origin': '*',
+                "Access-Control-Allow-Origin": "*",
             },
         };
         fetch(`https://jsonplaceholder.typicode.com/posts/${id}`, corsForEdit)
@@ -85,13 +108,27 @@ const Requestmethod = () => {
             return res.json();
         })
         .then((post)=>{
-            // console.log(post)
+            // if (post.id === id) {
+            //     setPost({ title:post.title, body:post.body})
+            // }else{
+            //     setPost({...post})
+            // }
+
+            posts.forEach((eachP)=>{
+                if (eachP.id === id){
+                    console.log(eachP)
+                    setPost({...post})
+                }else {
+                    setPost({...post})
+                }
+            })
         })
         .catch((error)=>{
             console.log(error)
         })
         // onCancalEditForm(false)
     }
+
 
 
     /**
@@ -138,7 +175,6 @@ const Requestmethod = () => {
             <h2 className='title' >ALL METHODS <span className='text-success'>GET</span> <span className='text-primary'>POST</span> <span className='text-danger'>DELETE</span> <span className='text-warning'>PUT</span> </h2>
         
 
-
             <div>
                 <button onClick={()=>onButtonCreate()} className="btn add-btn btn-primary">CREATE</button>
             </div>
@@ -148,7 +184,7 @@ const Requestmethod = () => {
                     <Display
                         posts={posts}
                         onDelete={onDelete}
-
+                        onEdit={onEdit}
                     />
                 </div>
                 <Form
@@ -159,10 +195,12 @@ const Requestmethod = () => {
                     setTitle={setTitle}
                     setBody={setBody}
                     onButtonCancal={onButtonCancal}
+                    post={post}
+                    setPost={setPost}
+                    onInputChange={onInputChange}
                 />
             </div>
-           
-        </div>
+        </div> 
     )
 }
 
